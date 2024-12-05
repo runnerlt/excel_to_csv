@@ -26,7 +26,7 @@ def convert_excel_to_csv_batch(input_folder, separator=";"):
                 df.dropna(axis=1, how='all', inplace=True)  # Remove empty columns
                 # Trim data in columns from both sides and remove special characters inside the data columns
                 df = df.applymap(lambda x: x.strip() if isinstance(x, str) else x)
-                df = df.applymap(lambda x: ''.join(e for e in x if e.isalnum() or e.isspace()) if isinstance(x, str) else x)
+                df = df.applymap(lambda x: ''.join(e for e in x if e.isprintable() and e != separator) if isinstance(x, str) else x)
                 combined_df = pd.concat([combined_df, df], ignore_index=True)
                 print(f"Added '{filename}' to the combined DataFrame")
             except Exception as e:
